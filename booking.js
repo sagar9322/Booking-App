@@ -1,8 +1,11 @@
-var count = 1;
+var count = localStorage.length+1;
       var button = document.getElementById("btn");
-      button.addEventListener("click", function() {
+      button.addEventListener("click", function(e) {
+        e.preventDefault;
          count++;
+    
       });
+
 
 
 function printUserDetail(event) {
@@ -13,7 +16,13 @@ function printUserDetail(event) {
     const phone = document.getElementById("phone").value;
     const date = document.getElementById("date").value;
     const time = document.getElementById("time").value;
-
-    // Log form input values to the console
-    localStorage.setItem("Candidate"+" "+count, `${name}-${email}-${phone}-${date}-${time}`);
+    let userDetail = {Name:name,Email:email,Phone:phone,Date:date,Time:time};
+let stringUserDetail = JSON.stringify(userDetail);
+    // adding in localstorage
+    localStorage.setItem("Candidate-"+count, stringUserDetail);
+    document.getElementById("fname").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("date").value = "";
+  document.getElementById("time").value = "";
 }
