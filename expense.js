@@ -66,6 +66,7 @@ function printExpenseDetail(event) {
   document.getElementById("select").value = category;
       }
     }
+    
     localStorage.setItem(description, stringUserDetail);
     document.getElementById("amount").value = "";
   document.getElementById("description").value = "";
