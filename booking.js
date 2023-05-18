@@ -1,6 +1,7 @@
 
 function printUserDetail(event) {
   event.preventDefault();
+  // event.preventDefault();
   // Get form input values
   const name = document.getElementById("fname").value;
   const email = document.getElementById("email").value;
@@ -12,58 +13,7 @@ function printUserDetail(event) {
   var userDetail = { Name: name, Email: email, Phone: phone, Date: date, Time: time };
   var displayDetail = userDetail.Name + '-' + userDetail.Email + '-' + userDetail.Phone + '-' + userDetail.Date + '-' + userDetail.Time;
 
-  // converting object to string
-  let stringUserDetail = JSON.stringify(userDetail);
-
-  // making addevent and remove event 
-  var itemList = document.getElementById('items');
-
-  //making new element li
-  var li = document.createElement('li');
-  // Add class
-  li.className = 'list-group-item';
-  // Add text node with input value
-  li.appendChild(document.createTextNode(displayDetail));
-
-  // Create del button element
-  var deleteBtn = document.createElement('button');
-  var editBtn = document.createElement('button');
-
-  // Add classes to del button
-  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-  editBtn.className = 'btn btn-primary btn-sm float-right edit';
-
-  deleteBtn.style.float = 'right';
-  editBtn.style.float = 'right';
-  editBtn.style.marginRight = '5px';
-  editBtn.style.marginLeft = '5px';
-
-  // Append text node
-  deleteBtn.appendChild(document.createTextNode('Delete'));
-  editBtn.appendChild(document.createTextNode('Edit'));
-
-
-  deleteBtn.onclick = () => {
-    deleteFromServer(userDetail);
-    itemList.removeChild(li);
-  }
-  editBtn.onclick = () => {
-    localStorage.removeItem(userDetail.Description);
-    itemList.removeChild(li);
-    document.getElementById("amount").value = amount;
-    document.getElementById("description").value = description;
-    document.getElementById("select").value = category;
-  }
-
-  // Append button to li
-  li.appendChild(deleteBtn);
-  li.appendChild(editBtn);
-
-
-  // Append li to list
-  itemList.appendChild(li);
-
-  axios.post("https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp/", userDetail)
+  axios.post("https://crudcrud.com/api/bd18d0a969ee417c919265893a2fb46f/bookingapp/", userDetail)
     .then((res) => {
       console.log(res);
     })
@@ -80,11 +30,8 @@ function printUserDetail(event) {
 }
 
 function deleteFromServer(uniqId) {
-  // Assuming userDetail.Description is the unique identifier for each user detail
-  // const uniqueIdentifier = userDetail.Name;
-  console.log(uniqId)
 
-  axios.delete(`https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp/${uniqId}`)
+  axios.delete(`https://crudcrud.com/api/bd18d0a969ee417c919265893a2fb46f/bookingapp/${uniqId}`)
     .then((res) => {
       console.log(res);
     })
@@ -94,7 +41,7 @@ function deleteFromServer(uniqId) {
 }
 
 function getUserDetailsFromServer() {
-  axios.get("https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp")
+  axios.get("https://crudcrud.com/api/bd18d0a969ee417c919265893a2fb46f/bookingapp")
     .then((res) => {
       var itemList = document.getElementById('items');
       itemList.innerHTML = ""; // Clear the current list
@@ -121,10 +68,24 @@ function getUserDetailsFromServer() {
         deleteBtn.appendChild(document.createTextNode('Delete'));
         editBtn.appendChild(document.createTextNode('Edit'));
 
-        deleteBtn.onclick = () => {
+        deleteBtn.onclick = (event) => {
+          event.preventDefault();
           deleteFromServer(uniqId);
           itemList.removeChild(li);
         }
+        editBtn.onclick = (event) => {
+          event.preventDefault();
+          deleteFromServer(uniqId);
+          itemList.removeChild(li);
+          // Retrieve the updated values from the form
+          document.getElementById("fname").value = userDetail.Name;
+          document.getElementById("email").value = userDetail.Email;
+          document.getElementById("phone").value = userDetail.Phone;
+          document.getElementById("date").value = userDetail.Date;
+          document.getElementById("time").value = userDetail.Time;
+        }
+
+
         li.appendChild(deleteBtn);
         li.appendChild(editBtn);
 
