@@ -44,7 +44,7 @@ function printUserDetail(event) {
 
 
   deleteBtn.onclick = () => {
-    localStorage.removeItem(userDetail.Description);
+    deleteFromServer(userDetail);
     itemList.removeChild(li);
   }
   editBtn.onclick = () => {
@@ -63,30 +63,46 @@ function printUserDetail(event) {
   // Append li to list
   itemList.appendChild(li);
 
-axios.post("https://crudcrud.com/api/53cd7ae4f1aa4298ab23399f975dc2f9/bookingapp/",userDetail)
-.then((res) => {
-  console.log(res);
-})
-.catch((err) => {
-  console.log(err);
-})
+  axios.post("https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp/", userDetail)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   // localStorage.setItem(email, stringUserDetail);
   document.getElementById("fname").value = "";
   document.getElementById("email").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("date").value = "";
   document.getElementById("time").value = "";
-  getUserDetailsFromServer();
+  // getUserDetailsFromServer();
 }
+
+function deleteFromServer(uniqId) {
+  // Assuming userDetail.Description is the unique identifier for each user detail
+  // const uniqueIdentifier = userDetail.Name;
+  console.log(uniqId)
+
+  axios.delete(`https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp/${uniqId}`)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 function getUserDetailsFromServer() {
-  axios.get("https://crudcrud.com/api/53cd7ae4f1aa4298ab23399f975dc2f9/bookingapp/")
+  axios.get("https://crudcrud.com/api/3b5e6bd0a5b54080b708a64ed892e11c/bookingapp")
     .then((res) => {
       var itemList = document.getElementById('items');
       itemList.innerHTML = ""; // Clear the current list
       for (let i = 0; i < res.data.length; i++) {
         const userDetail = res.data[i];
+        uniqId = res.data[i]['_id'];
         var displayDetail = userDetail.Name + '-' + userDetail.Email + '-' + userDetail.Phone + '-' + userDetail.Date + '-' + userDetail.Time;
-        
+
         var li = document.createElement('li');
         li.className = 'list-group-item';
         li.appendChild(document.createTextNode(displayDetail));
@@ -106,17 +122,9 @@ function getUserDetailsFromServer() {
         editBtn.appendChild(document.createTextNode('Edit'));
 
         deleteBtn.onclick = () => {
-          localStorage.removeItem(userDetail.Description);
-    itemList.removeChild(li);
-        }
-        editBtn.onclick = () => {
-          localStorage.removeItem(userDetail.Description);
+          deleteFromServer(uniqId);
           itemList.removeChild(li);
-          document.getElementById("amount").value = amount;
-          document.getElementById("description").value = description;
-          document.getElementById("select").value = category;
         }
-
         li.appendChild(deleteBtn);
         li.appendChild(editBtn);
 
