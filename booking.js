@@ -42,7 +42,7 @@ function printUserDetail(event) {
   deleteBtn.appendChild(document.createTextNode('Delete'));
   editBtn.appendChild(document.createTextNode('Edit'));
 
-  
+
   deleteBtn.onclick = () => {
     localStorage.removeItem(userDetail.Description);
     itemList.removeChild(li);
@@ -54,8 +54,6 @@ function printUserDetail(event) {
     document.getElementById("description").value = description;
     document.getElementById("select").value = category;
   }
-
-
 
   // Append button to li
   li.appendChild(deleteBtn);
@@ -78,4 +76,57 @@ axios.post("https://crudcrud.com/api/53cd7ae4f1aa4298ab23399f975dc2f9/bookingapp
   document.getElementById("phone").value = "";
   document.getElementById("date").value = "";
   document.getElementById("time").value = "";
+  getUserDetailsFromServer();
 }
+function getUserDetailsFromServer() {
+  axios.get("https://crudcrud.com/api/53cd7ae4f1aa4298ab23399f975dc2f9/bookingapp/")
+    .then((res) => {
+      var itemList = document.getElementById('items');
+      itemList.innerHTML = ""; // Clear the current list
+      for (let i = 0; i < res.data.length; i++) {
+        const userDetail = res.data[i];
+        var displayDetail = userDetail.Name + '-' + userDetail.Email + '-' + userDetail.Phone + '-' + userDetail.Date + '-' + userDetail.Time;
+        
+        var li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.appendChild(document.createTextNode(displayDetail));
+
+        var deleteBtn = document.createElement('button');
+        var editBtn = document.createElement('button');
+
+        deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+        editBtn.className = 'btn btn-primary btn-sm float-right edit';
+
+        deleteBtn.style.float = 'right';
+        editBtn.style.float = 'right';
+        editBtn.style.marginRight = '5px';
+        editBtn.style.marginLeft = '5px';
+
+        deleteBtn.appendChild(document.createTextNode('Delete'));
+        editBtn.appendChild(document.createTextNode('Edit'));
+
+        deleteBtn.onclick = () => {
+          localStorage.removeItem(userDetail.Description);
+    itemList.removeChild(li);
+        }
+        editBtn.onclick = () => {
+          localStorage.removeItem(userDetail.Description);
+          itemList.removeChild(li);
+          document.getElementById("amount").value = amount;
+          document.getElementById("description").value = description;
+          document.getElementById("select").value = category;
+        }
+
+        li.appendChild(deleteBtn);
+        li.appendChild(editBtn);
+
+        itemList.appendChild(li);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// Call getUserDetailsFromServer() when the page is loaded
+window.addEventListener("DOMContentLoaded", getUserDetailsFromServer);
