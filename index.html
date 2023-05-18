@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Registration Form</title>
+        <style>
+            body {
+                font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                background-image: url(pexels-jess-bailey-designs-743986.jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+            form {
+                width: 450px;
+                height: 355px;
+                border: 1px solid black;
+                margin: auto;
+                margin-top: 20px;
+                padding: 5px;
+                border-radius: 10px;
+                background-color: #E76161;
+                color: white;
+            }
+            h2 {
+                text-align: center;
+            }
+            p {
+                text-align: center;
+                font-size: small;
+            }
+            label {
+                margin-left: 5px;
+            }
+            input {
+                width: 430px;
+                height: 20px;
+                margin: 5px;
+                margin-left: 5px;
+                margin-right: 5px;
+                background-color: bisque;
+                border-radius: 5px;
+                border: none;
+            }
+            #time,#date{
+                width: 207px;
+            }
+            .button {
+                height: 30px;
+                width: 438px;
+                margin-top: 10px;
+                background-color: #B04759;
+                border-radius: 5px;
+                border: none;
+                font-weight: 100;
+            }
+        </style>
+    </head>
+    <body>
+            <form id="form" action="#">
+                <h2>Book a Call</h2>
+                <p>Book a call slot and our representative will call you within 1hr of selected time.</p>
+                <hr>
+                <label for="fname">Name:</label>
+                <br>
+                <input type="text" id="fname" name="fname">
+                <br>
+                <label for="email">Email:</label>
+                <br>
+                <input type="email" id="email" name="email">
+                <br>
+                <label for="phone">Phone:</label>
+                <br>
+                <input type="phone" name="phone" id="phone">
+                <br>
+                <label for="time">Time for Call:</label>
+                <br>
+                <input type="date" id="date" name="date">
+                <input type="time" id="time" name="time">
+                <br>
+                <input type="submit" class="button" onclick="printUserDetail(event)" name="getcall" value="GET A CALL">
+            </form>
+            <script>
+                function printUserDetail(event) {
+                    event.preventDefault();
+                    // Get form input values
+                    const name = document.getElementById("fname").value;
+                    const email = document.getElementById("email").value;
+                    const phone = document.getElementById("phone").value;
+                    const date = document.getElementById("date").value;
+                    const time = document.getElementById("time").value;
+    
+                    // Log form input values to the console
+                    console.log("Name: " + name);
+                    console.log("Email: " + email);
+                    console.log("Phone: " + phone);
+                    console.log("Date: " + date);
+                    console.log("Time: " + time);
+                }
+            </script>
+    </body>
+</html>

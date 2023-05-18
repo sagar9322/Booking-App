@@ -34,6 +34,7 @@ function printExpenseDetail(event) {
   deleteBtn.style.float = 'right';
   editBtn.style.float = 'right';
   editBtn.style.marginRight = '5px';
+  editBtn.style.marginLeft = '5px';
 
   // Append text node
   deleteBtn.appendChild(document.createTextNode('Delete'));
