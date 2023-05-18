@@ -42,6 +42,7 @@ function printUserDetail(event) {
   deleteBtn.appendChild(document.createTextNode('Delete'));
   editBtn.appendChild(document.createTextNode('Edit'));
 
+  
   deleteBtn.onclick = () => {
     localStorage.removeItem(userDetail.Description);
     itemList.removeChild(li);
